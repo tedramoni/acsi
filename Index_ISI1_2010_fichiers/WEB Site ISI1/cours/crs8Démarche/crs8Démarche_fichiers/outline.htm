@@ -1,0 +1,772 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 10">
+<link id=Main-File rel=Main-File href="../crs8Démarche.htm">
+<link rel=Preview href=preview.wmf>
+<meta name=Robots content=NoIndex>
+<script src=script.js></script><script><!--
+if( !(IsWin("PPTOtl")||IsWin("PPTNav")||IsWin("PPTOtlNav")) )
+{
+	obj = GetObj("Main-File")
+	parent.location.href=obj.href
+}
+var gOtlHiliteClr="#ffffff",gOtlNormalClr="#000000",gOtlActiveClr="#ffff00",gSelected="",gTxtState=false,gChildEntryTable=new Array()
+function Load()
+{
+	if( IsWin("PPTOtl" ) ){ LoadOtl(); parent.gOtlLoaded=true; return }
+	if( g_supportsPPTHTML ) {
+		if( IsWin("PPTNav" ) ){ LoadNav("NavObj",UpdNav); parent.gNavLoaded=true; return }
+		if( IsWin("PPTOtlNav" ) ){ LoadNav("OtlNavObj",UpdOtlNav); parent.gOtlNavLoaded=true; return }
+	}
+}
+function Upd(){ if( IsWin("PPTNav") ) LoadNav("NavObj",UpdNav) }
+function LoadNav( oId,UpdFunc )
+{
+	document.ondragstart=CancelDrag
+	document.onselectstart=CancelDrag
+	document.body.style.margin=2
+	UpdFunc()
+	obj=document.all.item(oId)
+	obj.style.display="block"
+	obj.style.visibility="visible"
+	document.bgColor="threedface"
+	if( parent.frames["PPTNts"] )
+		notesBtn.style.display = ""
+	if( parent.gHasNarration )
+		nb_voiceBorder.style.display = ""
+}
+function LoadOtl()
+{
+	var otl=GetObj("OtlObj")
+	otl.style.display="block"
+	otl.style.visibility="visible"
+	if( gOtlActiveClr == "" ) gOtlActiveClr=document.linkColor
+	if( gOtlHiliteClr == "" ) gOtlHiliteClr=document.fgColor
+	if( gOtlNormalClr == "" )
+		gOtlNormalClr=document.bgColor
+	else
+		document.bgColor=gOtlNormalClr
+	InitArray()
+	if( ObjExists( parent.gCurSld ) ) {
+		ChangeState( parent.gCurSld,gOtlNormalClr,gOtlHiliteClr )
+		gSelected=parent.gCurSld
+	}
+	else gSelected = -1
+	UpdOtl()
+}
+function UpdOtl(){ UpdIdx(parent.gCurSld) }
+function UpdIdx( idx )
+{
+	if( gSelected != idx ) {
+		if( gSelected > 0 )
+			ChangeState( gSelected,gOtlHiliteClr,gOtlNormalClr )
+		if( ObjExists( idx ) ) {
+			gSelected = idx
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+		}
+		else gSelected = -1
+	}
+	if( gTxtState != parent.gOtlTxtExp ) {
+		state = "block"
+		if( !parent.gOtlTxtExp )
+			state="none"
+		for(ii=0; ii<gChildEntryTable.length; ii++) {
+			obj=gChildEntryTable[ii];
+			if( obj.id == null ) continue;
+			if( obj.id.indexOf("PPTC") >= 0 )
+				obj.style.display=state;
+		}
+		gTxtState=parent.gOtlTxtExp
+		if( ObjExists( gSelected ) )
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+	}
+}
+function InitArray()
+{
+	count=0
+	var list=GetTags(document,"DIV");
+	for(ii=0; ii<list.length; ii++) {
+		obj=list.item(ii)
+		if( obj.id == null ) continue
+		if( obj.id.indexOf("PPTC") >= 0 )
+			gChildEntryTable[count++]=obj
+	}
+}
+function ChangeState( idx,fgColor,bgColor )
+{
+	obj=GetObj("PPTL"+idx)
+	obj.style.color=fgColor
+	obj=GetObj("PPTP"+idx)
+	obj.style.backgroundColor=bgColor
+}
+function ChgClr( o,clr ){ if( o.id != "PPTL"+gSelected ) o.style.color=clr }
+function Over( src ){ ChgClr(GetLink(src),gOtlActiveClr) }
+function Out( src ){ ChgClr(GetLink(src),gOtlHiliteClr) }
+function Follow(src){ window.location.href = GetLink(src).href; }
+function ObjExists( ii ) { obj=GetObj("PPTP"+ii ); return( obj ) }
+function GoToSld( href ){ UpdIdx(parent.GetSldNum(href)); parent.GoToSld( href ) }
+function CancelDrag(){ window.event.cancelBubble=true;window.event.returnValue=false}
+function GetLink(src)
+{
+   if(src.tagName=="A") return src
+   else return GetTags(src,"A").item(0)
+}
+function UpdNav()
+{
+	txt = "<center>";
+	if( parent.GetHrefObj( parent.gCurSld ).mOrigVis == 1 )
+		txt += "Diapositive " + parent.GetCurSldNum() + " sur " + parent.GetNumSlds()
+	else
+		txt += "Diapositive masquée"
+	txt += "</center>";
+	nav_text.innerHTML = txt;
+	if( !parent.HasPrevSld() )
+		gBtnArr["nb_prev"].Enabled(0)
+	else
+		gBtnArr["nb_prev"].Enabled(1)
+	if( !parent.HasNextSld() )
+		gBtnArr["nb_next"].Enabled(0)
+	else
+		gBtnArr["nb_next"].Enabled(1)
+	gBtnArr["nb_nts"].SetEnabled()
+	gBtnArr["nb_nts"].SetFlag( parent.gHasNts )
+	gBtnArr["nb_sldshw"].Enabled(1)
+	gBtnArr["nb_voice"].Enabled(1)
+}
+function UpdOtlNav()
+{
+	gBtnArr["nb_otl"].SetEnabled();
+	if( parent.gOtlOpen )
+		gBtnArr["nb_otlTxt"].Enabled( true );
+	else
+		document.all.item("nb_otlTxtBorder").style.visibility = "hidden";
+}
+
+//--></script>
+<style>
+<!--.PTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;
+	padding-left:2px;
+	font-weight:bold;}
+.CTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;}
+a
+	{color:white;
+	text-decoration:none;}
+ul
+	{color:white;
+	margin-bottom:0px;
+	margin-left:20px;}
+.sldNum
+	{margin-top:5px;
+	color:white;}
+.button
+	{position:absolute;
+	width:32px;
+	height:20px;
+	border-style:solid;
+	border-width:1px;
+	border-color:threedface;}
+-->
+</style>
+</head>
+
+<body onload="Load()" style='margin:2px'>
+
+<div id=NavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="_KPH()" style='display:none;visibility:hidden'>
+<table id="notesBtn" style='position:absolute;display:none;width:70px' align=left cellpadding=0
+ cellspacing=0>
+ <td nowrap>
+ <div id="nb_ntsElem" align=center style='position:relative;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt'><img src="notes_flag.gif"
+ border=0 id="notes_flag" style='display:none'><span
+style='mso-spacerun:yes'>  </span>Commentaires</div>
+ <div title="Afficher/Masquer
+les commentaires" id="nb_nts" style='position:absolute;top:0%;
+ left:0%;width:100%;height:100%'></div>
+ </td>
+</table>
+
+<table style='position:relative;width:70px' align=right cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_sldshwText" title="Diaporama
+plein écran" align=center style='position:relative;margin-left:20px;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt;cursor:default'>Diaporama</div>
+ <div id="nb_sldshwBorder" title="Diaporama
+plein écran" style='position:absolute;top:0%;left:0%;width:100%;height:20px'>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_sldshw" style='position:relative;left:-254px'></div>
+ </div>
+ </td>
+ <td>
+ <div id="nb_voiceBorder" style='display:none;position:absolute;top:0;left:-40px;
+ width:20px;height:20px'>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_voice" title="Suspendre/Lire la narration" style='position:
+ relative;left:-290px'></div>
+ </div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_prevBorder" class=button style='left:-30px'>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_prev" title="Diapositive précédente" style='position:relative;
+ left:0px'></div>
+ </div>
+ <span id="nav_text" style='position:relative;top:3px;width:100px;font-family:
+ Arial;color:buttontext;font-size:9pt'></span>
+ <div id="nb_nextBorder" class=button>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_next" title="Diapositive suivante" style='position:relative;
+ left:-90px'></div>
+ </div>
+ </td>
+</table>
+</div>
+
+<div id=OtlNavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="_KPH()" style='display:none;visibility:hidden'>
+
+<table style='position:relative;width:70px' align=left cellpadding=0 cellspacing=0>
+ <td nowrap><div title="Afficher/Masquer
+le plan" id="nb_otl"
+ style='position:absolute;top:0%;left:0%;width:100%;height:100%;cursor:default'>
+ <div id="nb_otlElem" align=center style='position:relative;padding:3px;font-family:Arial;
+ color:buttontext;font-size:9pt'>Plan</div></div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td>
+ <div style='position:absolute;left:-18px;width:24px;height:20px;border-style:
+ solid;border-width:1px;border-color:threedface' id="nb_otlTxtBorder">
+ <div style='position:absolute;clip:rect(0px, 22px, 18px, 0px)'><img
+ src=buttons.gif id="nb_otlTxt" title="Développer/Réduire le plan"
+ style='position:relative;left:-157px'></div>
+ </div>
+ </td>
+</table>
+
+</div>
+
+<div id=OtlObj style='display:none;visibility:hidden;'>
+
+
+<table width="100%" style='font-family:Arial;font-size:9pt'>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>1</font></div>
+  </td>
+  <td width="100%">
+  <div id=PPTP1 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0265.htm');" id=PPTL1>LA DEMARCHE MERISE</a></font></div>
+  <div id=PPTC1 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>2</font></div>
+  </td>
+  <td>
+  <div id=PPTP2 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0223.htm');" id=PPTL2>LE DEMARCHE MERISE: Plan</a></font></div>
+  <div id=PPTC2 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LES CYCLES</li>
+   <li>MERISE: UNE DEMARCHE PAR ETAPE</li>
+   <ul>
+    <li>SCHEMA DIRECTEUR</li>
+    <li>ETUDE PREALABLE</li>
+    <li>ETUDE DETAILLEE</li>
+    <li>REALISATION</li>
+    <ul>
+     <li>ETUDE TECHNIQUE</li>
+     <li>PROGRAMMATION</li>
+    </ul>
+    <li>MISE EN OEUVRE</li>
+    <li>MAINTENANCE</li>
+   </ul>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>3</font></div>
+  </td>
+  <td>
+  <div id=PPTP3 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0320.htm');" id=PPTL3>LE DEMARCHE MERISE</a></font></div>
+  <div id=PPTC3 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LES CYCLES</li>
+   <li>La démarche de développement d’un SI doit être conduite suivant 3 axes
+       (les cycles):</li>
+   <li>Le cycle de vie (échelle de temps),</li>
+   <li>Le cycle de décision (choix organisationnels et techniques),</li>
+   <li>Le cycle de d&nbsp;’abstraction (modèles organisés en niveaux
+       conceptuel, organisationnel/ logique et physique.</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>4</font></div>
+  </td>
+  <td>
+  <div id=PPTP4 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0322.htm');" id=PPTL4>LE DEMARCHE MERISE: Les
+  cycles</a></font></div>
+  <div id=PPTC4 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LE CYCLE DE VIE:</li>
+   <li>se situe sur une échelle de temps qui va du point de départ à
+       l’exploitation du système, en passant par sa naissance, sa maturité et
+       sa maintenance.</li>
+   <li>Dans MERISE, il est découpé en 3 périodes:</li>
+   <li>La conception du système (spécifications fonctionnelles et techniques),</li>
+   <li>La production des programmes correspondant aux spécifications
+       détaillées, et</li>
+   <li>La maintenance (adaptation du système à l’évolution de son
+       environnement).</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>5</font></div>
+  </td>
+  <td>
+  <div id=PPTP5 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0323.htm');" id=PPTL5>&quot;LE CYCLE DE
+  DECISION:&quot;</a></font></div>
+  <div id=PPTC5 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LE CYCLE DE DECISION:</li>
+   <li>représente l’ensemble des choix à faire durant le déroulement du cycle
+       de vie.</li>
+   <li>Ces décisions fixent:</li>
+   <li><span style='mso-spacerun:yes'> </span>les objectifs organisationnels et
+       techniques,</li>
+   <li>les priorités de développement,</li>
+   <li>les ressources allouées au projet,</li>
+   <li>la mise en place et le suivi de plannings d’avancement.</li>
+   <li>Elles sont prises hiérarchiquement.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>6</font></div>
+  </td>
+  <td>
+  <div id=PPTP6 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0324.htm');" id=PPTL6>LE DEMARCHE MERISE: Les
+  cycles</a></font></div>
+  <div id=PPTC6 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LE CYCLE D’ABSTRACTION:</li>
+   <li>regroupe l’ensemble des modèles utilisés pour concevoir le système.</li>
+   <li>Ces modèles sont organisés en 3 niveaux: le conceptuel, l’organisationnel
+       ou le logique et le technique (physique pour les données et opérationnel
+       pour les traitements).</li>
+   <li>Dans MERISE:</li>
+   <li>Au niveau le plus élevé, se trouvent</li>
+   <li>les objets les plus stables.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>7</font></div>
+  </td>
+  <td>
+  <div id=PPTP7 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0325.htm');" id=PPTL7>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    Introduction</a></font></div>
+  <div id=PPTC7 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>MERISE propose de suivre</li>
+   <li>une démarche par étapes</li>
+   <li>s’appuyant sur les 3 cycles.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>8</font></div>
+  </td>
+  <td>
+  <div id=PPTP8 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0327.htm');" id=PPTL8>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    Introduction</a></font></div>
+  <div id=PPTC8 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>1- LE SCHEMA DIRECTEUR</li>
+   <li>Définition des domaines d’étude,</li>
+   <li>Planification du développement de chaque domaine,</li>
+   <li>Moyens en personnels et en matériel,</li>
+   <li>Stratégie de mise en œuvre de la méthode.</li>
+   <li>2- L’ETUDE PREALABLE</li>
+   <li>Porte sur un sous-ensemble du système.</li>
+   <li>Doit fournir aux responsables les moyens de prendre les décisions
+       pertinentes sur la globalité du projet.</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>9</font></div>
+  </td>
+  <td>
+  <div id=PPTP9 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0334.htm');" id=PPTL9>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    Introduction</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>10</font></div>
+  </td>
+  <td>
+  <div id=PPTP10 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0328.htm');" id=PPTL10>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    Le schema directeur</a></font></div>
+  <div id=PPTC10 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Etude menée pour la direction générale par des organisateurs et des
+       responsables informatiques.</li>
+   <li>Objectif: Fixer les grandes orientations pour les années à venir. Il
+       relève de la planification stratégique.</li>
+   <li>Établissement d’un PLAN INFORMATIQUE pour prévoir l’évolution en terme
+       de matériel et logiciels.</li>
+   <li>Il peut être établit à priori ou au fur et à mesure de l’avancement de
+       l’étude préalable.</li>
+   <li>Le SD est une étape continue qui s’affine au fur et à mesure des étapes
+       préalables.</li>
+   <li>Le SI est découpé en domaines (ensemble de processus de SI utilisant des
+       données communes et présentant peu d’échanges avec les autres processus).</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>11</font></div>
+  </td>
+  <td>
+  <div id=PPTP11 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0329.htm');" id=PPTL11>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    L’étude préalable</a></font></div>
+  <div id=PPTC11 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>* Etude de l’existant</li>
+   <li>* Etude du futur</li>
+   <li>* Évaluation des scénarios</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>12</font></div>
+  </td>
+  <td>
+  <div id=PPTP12 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0330.htm');" id=PPTL12>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    L’étude préalable (1)</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>13</font></div>
+  </td>
+  <td>
+  <div id=PPTP13 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0331.htm');" id=PPTL13>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    L’étude préalable (2)</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>14</font></div>
+  </td>
+  <td>
+  <div id=PPTP14 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0333.htm');" id=PPTL14>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    L’étude préalable (3)</a></font></div>
+  <div id=PPTC14 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Pour chaque SCENARIO, on rédige un rapport d’évaluation du scénario
+       comportant:</li>
+   <ul>
+    <li>EVALUATION DES COUTS (Matériel, stockage, logiciel, traitement,
+        communication, exploitation, personnel, formation),</li>
+    <li>EVALUATION DES AVANTAGES (quantifiables et chiffrables au plan
+        financier, quantifiables et non chiffrables (gain de temps), et non
+        quantifiables (aide à la décision)),</li>
+    <li>EVALUATION DE L’IMPACT SUR L’ORGANISATION (impact sur les postes de
+        travail, acceptabilité du personnel)</li>
+    <li>EVALUATION DE LA FAISABILITE (en matériel, logiciels, personnel),</li>
+    <li>EVALUATION APPROXIMATIVE DES DELAIS (de livraison des matériels, de
+        programmation des logiciels, de recrutement et de formation),</li>
+    <li>EVALUATION DE LA MISE EN ŒUVRE (cadencement du lancement des
+        applications, périodes transitoires).</li>
+    <br>
+    <br>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>15</font></div>
+  </td>
+  <td>
+  <div id=PPTP15 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0335.htm');" id=PPTL15>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    L’étude préalable (4)</a></font></div>
+  <div id=PPTC15 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Le dossier de choix est le document résultant de l&nbsp;’étude
+       préalable.</li>
+   <li>Il comprend tous les documents générés lors de:</li>
+   <ul>
+    <li>L&nbsp;’ETUDE DE L’EXISTANT</li>
+    <li>L&nbsp;’ETUDE DU FUTUR, et</li>
+    <li>LA DESCRIPTION DE CHAQUE SCENARIO.</li>
+    <br>
+    <br>
+   </ul>
+   <li>Le Directeur Général devra trancher entre les différents scénarios
+       proposés.</li>
+   <li>C’est à partir du scénario retenu que sera menée l’étude détaillée.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>16</font></div>
+  </td>
+  <td>
+  <div id=PPTP16 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0336.htm');" id=PPTL16>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    L’étude détaillée</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>17</font></div>
+  </td>
+  <td>
+  <div id=PPTP17 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0337.htm');" id=PPTL17>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    Réalisation - L’étude technique</a></font></div>
+  <div id=PPTC17 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>ETUDE TECHNIQUE</li>
+   <li>Organisation physique des données</li>
+   <ul>
+    <li>Validation des volumes avec l’organisation</li>
+   </ul>
+   <li>Organisation physique des traitements</li>
+   <ul>
+    <li>ARCHITECTURE TECHNIQUE DES PROGRAMMES DIFFERES</li>
+    <li>ARCHITECTURE TECHNIQUE DES PROGRAMMES EN TEMPS REEL</li>
+    <li>Validation par l’exploitation</li>
+   </ul>
+   <li>PROGRAMMATION</li>
+   <li>Planning de production (stratégie de production et de réception interne
+       des programmes)</li>
+   <ul>
+    <li>Validation par le client</li>
+   </ul>
+   <li>Production des programmes et mise au point</li>
+   <li>Test d&nbsp;’intégration et réception interne des programmes.</li>
+   <ul>
+    <br>
+    <br>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>18</font></div>
+  </td>
+  <td>
+  <div id=PPTP18 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0338.htm');" id=PPTL18>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    Bilan (1)</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>19</font></div>
+  </td>
+  <td>
+  <div id=PPTP19 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0339.htm');" id=PPTL19>LE DEMARCHE MERISE PAR
+  ETAPE<br>
+    Bilan (2)</a></font></div>
+  </td>
+ </tr>
+</table>
+
+
+
+</div>
+
+<div style='display:none'><a href=master04.htm></a><a href=master04.xml></a><a
+href=preview.wmf></a><a href="master04_image001.png"></a><a href=master05.htm></a><a
+href=master05.xml></a><a href=master02.htm></a><a href=pres.xml></a><a
+href=slide0265.htm></a><a href="master05_image002.gif"></a><a
+href=slide0223.htm></a><a href="master04_image003.gif"></a><a
+href=slide0320.htm></a><a href="slide0320_image004.gif"></a><a
+href="slide0320_image005.gif"></a><a href="slide0320_image006.gif"></a><a
+href="slide0320_image007.gif"></a><a href="slide0320_image008.gif"></a><a
+href=slide0322.htm></a><a href="slide0322_image009.gif"></a><a
+href="slide0322_image010.gif"></a><a href="slide0322_image011.gif"></a><a
+href="slide0322_image012.gif"></a><a href="slide0322_image013.gif"></a><a
+href="slide0322_image014.gif"></a><a href=slide0323.htm></a><a
+href="slide0323_image015.gif"></a><a href="slide0323_image016.gif"></a><a
+href="slide0323_image017.gif"></a><a href="slide0323_image018.gif"></a><a
+href="slide0323_image019.gif"></a><a href="slide0323_image020.gif"></a><a
+href=slide0324.htm></a><a href="slide0324_image021.gif"></a><a
+href="slide0324_image022.gif"></a><a href="slide0324_image023.gif"></a><a
+href="slide0324_image024.gif"></a><a href="slide0324_image025.gif"></a><a
+href="slide0324_image026.gif"></a><a href="slide0324_image027.emz"></a><a
+href=oledata.mso></a><a href="slide0324_image028.gif"></a><a
+href=slide0325.htm></a><a href="slide0325_image029.gif"></a><a
+href="slide0325_image030.gif"></a><a href="slide0325_image031.gif"></a><a
+href="slide0325_image032.gif"></a><a href="slide0325_image033.gif"></a><a
+href="slide0325_image034.gif"></a><a href="slide0325_image035.gif"></a><a
+href="slide0325_image036.gif"></a><a href="slide0325_image037.gif"></a><a
+href="slide0325_image038.gif"></a><a href="slide0325_image039.gif"></a><a
+href="slide0325_image040.gif"></a><a href="slide0325_image041.gif"></a><a
+href="slide0325_image042.gif"></a><a href="slide0325_image043.gif"></a><a
+href="slide0325_image044.gif"></a><a href=slide0327.htm></a><a
+href=slide0334.htm></a><a href="slide0334_image045.gif"></a><a
+href="slide0334_image046.gif"></a><a href="slide0334_image047.gif"></a><a
+href="slide0334_image048.gif"></a><a href="slide0334_image049.gif"></a><a
+href="slide0334_image050.gif"></a><a href=slide0328.htm></a><a
+href=slide0329.htm></a><a href="slide0329_image051.gif"></a><a
+href="slide0329_image052.gif"></a><a href="slide0329_image053.gif"></a><a
+href="slide0329_image054.gif"></a><a href="slide0329_image055.gif"></a><a
+href="slide0329_image056.gif"></a><a href="slide0329_image057.gif"></a><a
+href="slide0329_image058.gif"></a><a href="slide0329_image059.gif"></a><a
+href="slide0329_image060.gif"></a><a href="slide0329_image061.gif"></a><a
+href="slide0329_image062.gif"></a><a href="slide0329_image063.gif"></a><a
+href=slide0330.htm></a><a href=slide0330.xml></a><a
+href="slide0330_image064.gif"></a><a href="slide0330_image065.gif"></a><a
+href="slide0330_image066.gif"></a><a href="slide0330_image067.gif"></a><a
+href="slide0330_image068.gif"></a><a href="slide0330_image069.gif"></a><a
+href="slide0330_image070.gif"></a><a href="slide0330_image071.gif"></a><a
+href="slide0330_image072.gif"></a><a href="slide0330_image073.gif"></a><a
+href="slide0330_image074.gif"></a><a href="slide0330_image075.gif"></a><a
+href="slide0330_image076.gif"></a><a href="slide0330_image077.gif"></a><a
+href="slide0330_image078.gif"></a><a href="slide0330_image079.gif"></a><a
+href="slide0330_image080.gif"></a><a href=slide0331.htm></a><a
+href="slide0331_image081.gif"></a><a href="slide0331_image082.gif"></a><a
+href="slide0331_image083.gif"></a><a href="slide0331_image084.gif"></a><a
+href="slide0331_image085.gif"></a><a href="slide0331_image086.gif"></a><a
+href="slide0331_image087.gif"></a><a href="slide0331_image088.gif"></a><a
+href="slide0331_image089.gif"></a><a href="slide0331_image090.gif"></a><a
+href="slide0331_image091.gif"></a><a href="slide0331_image092.gif"></a><a
+href="slide0331_image093.gif"></a><a href="slide0331_image094.gif"></a><a
+href="slide0331_image095.gif"></a><a href="slide0331_image096.gif"></a><a
+href="slide0331_image097.gif"></a><a href="slide0331_image098.gif"></a><a
+href="slide0331_image099.gif"></a><a href="slide0331_image100.gif"></a><a
+href="slide0331_image101.gif"></a><a href=slide0333.htm></a><a
+href=slide0335.htm></a><a href=slide0336.htm></a><a href=slide0336.xml></a><a
+href="slide0336_image102.gif"></a><a href="slide0336_image103.gif"></a><a
+href="slide0336_image104.gif"></a><a href="slide0336_image105.gif"></a><a
+href="slide0336_image106.gif"></a><a href="slide0336_image107.gif"></a><a
+href="slide0336_image108.gif"></a><a href="slide0336_image109.gif"></a><a
+href="slide0336_image110.gif"></a><a href="slide0336_image111.gif"></a><a
+href="slide0336_image112.gif"></a><a href="slide0336_image113.gif"></a><a
+href="slide0336_image114.gif"></a><a href="slide0336_image115.gif"></a><a
+href="slide0336_image116.gif"></a><a href="slide0336_image117.gif"></a><a
+href="slide0336_image118.gif"></a><a href=slide0337.htm></a><a
+href=slide0338.htm></a><a href="slide0338_image119.gif"></a><a
+href="slide0338_image120.gif"></a><a href="slide0338_image121.gif"></a><a
+href="slide0338_image122.gif"></a><a href="slide0338_image123.gif"></a><a
+href="slide0338_image124.gif"></a><a href="slide0338_image125.gif"></a><a
+href="slide0338_image126.gif"></a><a href="slide0338_image127.gif"></a><a
+href="slide0338_image128.gif"></a><a href="slide0338_image129.gif"></a><a
+href="slide0338_image130.gif"></a><a href="slide0338_image131.gif"></a><a
+href=slide0339.htm></a><a href="slide0339_image132.gif"></a><a
+href="slide0339_image133.gif"></a><a href="slide0339_image134.gif"></a><a
+href=master01.htm></a><a href="master04_stylesheet.css"></a><a href=script.js></a><a
+href="../crs8Démarche.htm"></a><a href=fullscreen.htm></a><a href=buttons.gif></a><a
+href=frame.htm></a><a href=outline.htm></a></div>
+
+</body>
+
+</html>

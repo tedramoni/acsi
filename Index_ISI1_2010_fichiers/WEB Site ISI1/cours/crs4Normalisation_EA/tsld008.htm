@@ -1,0 +1,68 @@
+
+<HTML>
+
+<HEAD>
+
+<meta name="GENERATOR" content="Microsoft Internet Assistant for PowerPoint 97">
+ <TITLE>NORMALISATION DES ENTITES</TITLE> 
+</HEAD>
+
+<BODY     >
+
+ <H1>NORMALISATION DES ENTITES</H1> 
+ <P><UL>
+<LI><H2>ENTITE EMBOITEEE (Règle de validation n°5)
+</H2>
+<UL>
+<LI>Dans une entité, il peut y avoir une dépendance fonctionnelle entre une propriété non identifiant et une autre propriété.
+<LI>Exemple: dans une entité PERSONNE contenant l ’adresse, il y a une dépendance de CODE-POSTAL vers CENTRE-DISTRIBUTEUR. CENTRE-DISTRIBUTEUR est uniquement déterminé par CODE-POSTAL.
+<LI>Règle de normalisation: pour normaliser cela, on créée une entité contenant au moins ces 2 propriétés et une association les liant.</UL></UL></P>
+<P><UL>
+SECTEUR</UL></P>
+<P><UL>
+Code-Postal
+</UL><UL>
+Centre-Distributeur</UL></P>
+<P><UL>
+      </UL></P>
+<P><UL>
+1,1</UL></P>
+<P><UL>
+1,n</UL></P>
+<P><UL>
+Rattaché à</UL></P>
+<P><UL>
+PERSONNE</UL></P>
+<P><UL>
+N°Personne
+</UL><UL>
+Nom     
+</UL><UL>
+Rue
+</UL><UL>
+Code-Postal
+</UL><UL>
+Centre-Distributeur     </UL></P>
+<P><UL>
+PERSONNE</UL></P>
+<P><UL>
+N°Personne
+</UL><UL>
+Nom     
+</UL><UL>
+Rue</UL></P>
+<P></P> 
+<P>
+<TABLE>
+  <TD HEIGHT=100 WIDTH=100> <A HREF="tsld007.htm">Diapositive précédente</A> </TD>
+  <TD HEIGHT=100 WIDTH=100> <A HREF="tsld009.htm">Diapositive suivante</A> </TD>
+  <TD HEIGHT=100 WIDTH=150> <A HREF="tsld001.htm">Revenir à la première diapositive</A> </TD>
+  <TD HEIGHT=100 WIDTH=150> <A HREF="sld008.htm">Afficher la version graphique</A> </TD>
+</TABLE>
+<BR>
+</P>
+
+
+
+</Body>
+</HTML>

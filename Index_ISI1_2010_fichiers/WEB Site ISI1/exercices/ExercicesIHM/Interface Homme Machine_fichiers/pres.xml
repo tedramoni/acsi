@@ -1,0 +1,47 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+ xmlns:oa="urn:schemas-microsoft-com:office:activation">
+ <p:presentation sizeof="screen" gridspacingx="46448" gridspacingy="46448">
+  <p:master id="4" slidesn="1C00D9D,3E2CBDC0" type="main" href="master04.htm"
+   xmlhref="master04.xml" template="Axe" layout="title_body"
+   slots="title,body,dateTime,footer,slideNumber">
+   <p:schemes>
+    <p:colorscheme
+     colors="#330000,#F8F8F8,#080808,#FFFFFF,#FF9900,#CC3300,#CC6600,#B2B282"/>
+    <p:colorscheme
+     colors="#800000,#F8F8F8,#333333,#FFFFFF,#CC9900,#666666,#CC6600,#95A587"/>
+    <p:colorscheme
+     colors="#013253,#A4BEE0,#5F5F5F,#FFFFFF,#588480,#6600FF,#CCCC00,#5F5F5F"/>
+    <p:colorscheme
+     colors="#3D4A1C,#F8F8F8,#003300,#FFFFFF,#99CC00,#669900,#CC9900,#B2B282"/>
+    <p:colorscheme
+     colors="#005D8C,#F8F8F8,#333333,#FFFFFF,#00CC99,#0099CC,#FFCC00,#D8D48C"/>
+    <p:colorscheme
+     colors="#ECAE00,#000000,#333333,#FFFFFF,#CC6600,#BA6D10,#666633,#8D996D"/>
+    <p:colorscheme
+     colors="#FFFFFF,#000000,#808080,#372221,#009999,#9AAC98,#666699,#B2B2B2"/>
+    <p:colorscheme
+     colors="#FFFFFF,#292929,#808080,#000000,#CC9900,#CCCC99,#999933,#B2B2B2"/>
+   </p:schemes>
+  </p:master>
+  <p:master id="5" slidesn="1C00D9D,3E2CBDC0" type="title" href="master05.htm"
+   xmlhref="master05.xml" layout="title_subtitle"
+   slots="centerTitle,subTitle,dateTime,footer,slideNumber"/>
+  <p:master id="1" slidesn="1C701BF,A46A7510" type="notes" href="master01.htm"
+   layout="notes" slots="header,dateTime,slideImage,body,footer,slideNumber"/>
+  <p:slide id="1" slidesn="1C701BF,39E5C7D0" href="slide0001.htm"
+   layout="title_body" slots="title,body"/>
+  <p:viewstate type="slideView" restoredleft="156" restoredtop="946"
+   hideoutlineicons="t"/>
+  <p:font name="Arial" charset="0" type="4"/>
+  <p:font name="Times New Roman" charset="0" type="4"/>
+  <p:font name="Wingdings" charset="2" type="6" family="2"/>
+  <p:headersfooters userdatestr="6 novembre 2006"
+   footerstr="Cours ISI1 - Mme Heiwy" formatid="0" noheader="t"/>
+  <p:headersfooters notes="t" slidenumber="t"/>
+  <p:pptdocumentsettings framecolors="WhiteTextOnBlack" hideslideanimation="t"
+   browsersupport="v4"/>
+ </p:presentation>
+ <o:shapedefaults v:ext="edit" spidmax="8200"/>
+</xml>

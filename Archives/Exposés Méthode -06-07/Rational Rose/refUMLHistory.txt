@@ -1,0 +1,15 @@
+http://pigseye.kennesaw.edu/~dbraun/csis4650/A&D/UML_tutorial/history_of_uml.htm
+
+http://www.devx.com/ibm/Article/30228
+Rechercher "Rational history" dans le texte
+
+
+http://www-306.ibm.com/software/rational/uml/
+Introduction to the Unified Modeling Language :
+ou bien
+ftp://ftp.software.ibm.com/software/rational/web/whitepapers/2003/intro_rdn.pdf
+Les origines de UML
+
+http://filebox.vt.edu/users/cgerard/Rational.pdf#search='Rational%20Rose%20history'
+
+http://www.rfgonline.com/subsforum/archive/daily/060500/060700nt.html

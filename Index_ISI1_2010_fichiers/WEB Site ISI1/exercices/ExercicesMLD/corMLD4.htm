@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>Corrigé 4:Les marchés de Paris</TITLE>
+<META NAME="Template" CONTENT="C:\Program Files\Microsoft Office\Office\html.dot">
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080" BGCOLOR="#99ffcc">
+
+<P ALIGN="CENTER"><CENTER><TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=626>
+<TR><TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<B><U><FONT SIZE=5 COLOR="#ff0000"><P ALIGN="CENTER">4</B></U><I>:Les march&eacute;s de Paris</I></FONT></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<P ALIGN="CENTER"><IMG SRC="Image5.gif" WIDTH=477 HEIGHT=243><I><FONT SIZE=4>&nbsp;</P>
+</I></FONT><B><U><FONT COLOR="#ff0000"><P>Corrig&eacute;:</P>
+</B></U></FONT><FONT SIZE=2 COLOR="#0000ff"><P ALIGN="JUSTIFY">Soit un MCD repr&eacute;sentant l'organisation du nettoyage des march&eacute;s de Paris, transformez ce MCD en un mod&egrave;le relationnel.</P>
+
+<UL>
+</FONT><FONT COLOR="#ff0000"><P ALIGN="JUSTIFY"><LI>MARCHE (<U>Nom march&eacute;</U>, Adresse)</LI><LI>EMPLACEMENT (<U>N°emplacement</U>, Prix annuel, Surface, Eau, Electricit&eacute;,
+
+</FONT><font color="#0000FF"> #Nom march&eacute;</font><FONT COLOR="#ff0000">)</LI><LI>COMMERCANT (<U>N°siret</U>, Nom commer&ccedil;ant, Type produit)</LI><LI>EQUIPE (<U>N°&eacute;quipe</U>, Adresse, N°telephone,
+
+</FONT><font color="#0000FF">#N°dirigeant</font><FONT COLOR="#ff0000">)</LI></UL>
+
+</FONT><I><U><FONT SIZE=2 COLOR="#ff0000"><P ALIGN="JUSTIFY">Remarque</U>: N°dirigeant correspond &agrave; N°s&eacute;curit&eacute; sociale</P>
+
+<UL>
+</I></FONT><FONT COLOR="#ff0000"><P ALIGN="JUSTIFY"><LI>OUVRIER (<U>N°s&eacute;curit&eacute;Sociale</U>, Nom ouvrier, Pr&eacute;nom ouvrier, adresse ouvrier,
+
+</FONT><font color="#0000FF"> #N°&eacute;quipe</font><FONT COLOR="#ff0000">)</LI><LI>VEHICULE (<U>N°immatriculation</U>, type,
+
+</FONT><font color="#0000FF">#N°responsable</font><FONT COLOR="#ff0000">,
+
+</FONT><font color="#0000FF"> #N°&eacute;quipe</font><FONT COLOR="#ff0000">)</LI></UL>
+
+</FONT><I><U><FONT SIZE=2 COLOR="#ff0000"><P ALIGN="JUSTIFY">Remarque</U>: N°responsable correspond &agrave; N°s&eacute;curit&eacute; sociale</P>
+
+<UL>
+</I></FONT><FONT COLOR="#ff0000"><P ALIGN="JUSTIFY"></FONT>
+<LI><font color="#800080">NETTOIE <U>(#N°&eacute;quipe</U>, </font> <U><font color="#800080"># Nom march&eacute;)</font></LI>
+</U><LI><font color="#800080">OUVRE (<U>#Nom march&eacute;</U>, <U>#NomJour</U>, Hrsouverture, Hrsfermeture</font><U><font color="#800080">)</font></LI>
+</U><LI><font color="#800080">LOUE <U>(#N°emplacement</U>, <U>#N°siret</U>, Ann&eacute;e)</font></LI></UL>
+
+<FONT COLOR="#ff0000">
+
+<B><I><P ALIGN="JUSTIFY">On pourrait aussi rajouter les tables:</P>
+
+<UL>
+<P ALIGN="JUSTIFY"><LI>ANNEE(Ann&eacute;e)</LI><LI>JOUR(Jour)</LI></UL>
+
+<P ALIGN="JUSTIFY">Mais comme elles sont mono-attribut et ne concerne que des dates, on peut
+également s'en dispenser.</P></B></I></FONT>
+<P ALIGN="CENTER"><CENTER><TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=615>
+<TR><TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="MLD4.htm">Retour &agrave; l'&eacute;nonc&eacute;</A></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="../sexercerMLD.htm">Retour au sommaire</A></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="../../Index.htm">Retour &agrave; l'accueil</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<P ALIGN="JUSTIFY"></P></BODY>
+</HTML>

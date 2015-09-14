@@ -1,0 +1,1447 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 10">
+<link id=Main-File rel=Main-File href="../crsIHM.htm">
+<link rel=Preview href=preview.wmf>
+<meta name=Robots content=NoIndex>
+<script src=script.js></script><script><!--
+if( !(IsWin("PPTOtl")||IsWin("PPTNav")||IsWin("PPTOtlNav")) )
+{
+	obj = GetObj("Main-File")
+	parent.location.href=obj.href
+}
+var gOtlHiliteClr="#ffffff",gOtlNormalClr="#000000",gOtlActiveClr="#ffff00",gSelected="",gTxtState=false,gChildEntryTable=new Array()
+function Load()
+{
+	if( IsWin("PPTOtl" ) ){ LoadOtl(); parent.gOtlLoaded=true; return }
+	if( g_supportsPPTHTML ) {
+		if( IsWin("PPTNav" ) ){ LoadNav("NavObj",UpdNav); parent.gNavLoaded=true; return }
+		if( IsWin("PPTOtlNav" ) ){ LoadNav("OtlNavObj",UpdOtlNav); parent.gOtlNavLoaded=true; return }
+	}
+}
+function Upd(){ if( IsWin("PPTNav") ) LoadNav("NavObj",UpdNav) }
+function LoadNav( oId,UpdFunc )
+{
+	document.ondragstart=CancelDrag
+	document.onselectstart=CancelDrag
+	document.body.style.margin=2
+	UpdFunc()
+	obj=document.all.item(oId)
+	obj.style.display="block"
+	obj.style.visibility="visible"
+	document.bgColor="threedface"
+	if( parent.frames["PPTNts"] )
+		notesBtn.style.display = ""
+	if( parent.gHasNarration )
+		nb_voiceBorder.style.display = ""
+}
+function LoadOtl()
+{
+	var otl=GetObj("OtlObj")
+	otl.style.display="block"
+	otl.style.visibility="visible"
+	if( gOtlActiveClr == "" ) gOtlActiveClr=document.linkColor
+	if( gOtlHiliteClr == "" ) gOtlHiliteClr=document.fgColor
+	if( gOtlNormalClr == "" )
+		gOtlNormalClr=document.bgColor
+	else
+		document.bgColor=gOtlNormalClr
+	InitArray()
+	if( ObjExists( parent.gCurSld ) ) {
+		ChangeState( parent.gCurSld,gOtlNormalClr,gOtlHiliteClr )
+		gSelected=parent.gCurSld
+	}
+	else gSelected = -1
+	UpdOtl()
+}
+function UpdOtl(){ UpdIdx(parent.gCurSld) }
+function UpdIdx( idx )
+{
+	if( gSelected != idx ) {
+		if( gSelected > 0 )
+			ChangeState( gSelected,gOtlHiliteClr,gOtlNormalClr )
+		if( ObjExists( idx ) ) {
+			gSelected = idx
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+		}
+		else gSelected = -1
+	}
+	if( gTxtState != parent.gOtlTxtExp ) {
+		state = "block"
+		if( !parent.gOtlTxtExp )
+			state="none"
+		for(ii=0; ii<gChildEntryTable.length; ii++) {
+			obj=gChildEntryTable[ii];
+			if( obj.id == null ) continue;
+			if( obj.id.indexOf("PPTC") >= 0 )
+				obj.style.display=state;
+		}
+		gTxtState=parent.gOtlTxtExp
+		if( ObjExists( gSelected ) )
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+	}
+}
+function InitArray()
+{
+	count=0
+	var list=GetTags(document,"DIV");
+	for(ii=0; ii<list.length; ii++) {
+		obj=list.item(ii)
+		if( obj.id == null ) continue
+		if( obj.id.indexOf("PPTC") >= 0 )
+			gChildEntryTable[count++]=obj
+	}
+}
+function ChangeState( idx,fgColor,bgColor )
+{
+	obj=GetObj("PPTL"+idx)
+	obj.style.color=fgColor
+	obj=GetObj("PPTP"+idx)
+	obj.style.backgroundColor=bgColor
+}
+function ChgClr( o,clr ){ if( o.id != "PPTL"+gSelected ) o.style.color=clr }
+function Over( src ){ ChgClr(GetLink(src),gOtlActiveClr) }
+function Out( src ){ ChgClr(GetLink(src),gOtlHiliteClr) }
+function Follow(src){ window.location.href = GetLink(src).href; }
+function ObjExists( ii ) { obj=GetObj("PPTP"+ii ); return( obj ) }
+function GoToSld( href ){ UpdIdx(parent.GetSldNum(href)); parent.GoToSld( href ) }
+function CancelDrag(){ window.event.cancelBubble=true;window.event.returnValue=false}
+function GetLink(src)
+{
+   if(src.tagName=="A") return src
+   else return GetTags(src,"A").item(0)
+}
+function UpdNav()
+{
+	txt = "<center>";
+	if( parent.GetHrefObj( parent.gCurSld ).mOrigVis == 1 )
+		txt += "Diapositive " + parent.GetCurSldNum() + " sur " + parent.GetNumSlds()
+	else
+		txt += "Diapositive masquée"
+	txt += "</center>";
+	nav_text.innerHTML = txt;
+	if( !parent.HasPrevSld() )
+		gBtnArr["nb_prev"].Enabled(0)
+	else
+		gBtnArr["nb_prev"].Enabled(1)
+	if( !parent.HasNextSld() )
+		gBtnArr["nb_next"].Enabled(0)
+	else
+		gBtnArr["nb_next"].Enabled(1)
+	gBtnArr["nb_nts"].SetEnabled()
+	gBtnArr["nb_nts"].SetFlag( parent.gHasNts )
+	gBtnArr["nb_sldshw"].Enabled(1)
+	gBtnArr["nb_voice"].Enabled(1)
+}
+function UpdOtlNav()
+{
+	gBtnArr["nb_otl"].SetEnabled();
+	if( parent.gOtlOpen )
+		gBtnArr["nb_otlTxt"].Enabled( true );
+	else
+		document.all.item("nb_otlTxtBorder").style.visibility = "hidden";
+}
+
+//--></script>
+<style>
+<!--.PTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;
+	padding-left:2px;
+	font-weight:bold;}
+.CTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;}
+a
+	{color:white;
+	text-decoration:none;}
+ul
+	{color:white;
+	margin-bottom:0px;
+	margin-left:20px;}
+.sldNum
+	{margin-top:5px;
+	color:white;}
+.button
+	{position:absolute;
+	width:32px;
+	height:20px;
+	border-style:solid;
+	border-width:1px;
+	border-color:threedface;}
+-->
+</style>
+</head>
+
+<body onload="Load()" style='margin:2px'>
+
+<div id=NavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="_KPH()" style='display:none;visibility:hidden'>
+<table id="notesBtn" style='position:absolute;display:none;width:70px' align=left cellpadding=0
+ cellspacing=0>
+ <td nowrap>
+ <div id="nb_ntsElem" align=center style='position:relative;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt'><img src="notes_flag.gif"
+ border=0 id="notes_flag" style='display:none'><span
+style='mso-spacerun:yes'>  </span>Commentaires</div>
+ <div title="Afficher/Masquer
+les commentaires" id="nb_nts" style='position:absolute;top:0%;
+ left:0%;width:100%;height:100%'></div>
+ </td>
+</table>
+
+<table style='position:relative;width:70px' align=right cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_sldshwText" title="Diaporama
+plein écran" align=center style='position:relative;margin-left:20px;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt;cursor:default'>Diaporama</div>
+ <div id="nb_sldshwBorder" title="Diaporama
+plein écran" style='position:absolute;top:0%;left:0%;width:100%;height:20px'>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_sldshw" style='position:relative;left:-254px'></div>
+ </div>
+ </td>
+ <td>
+ <div id="nb_voiceBorder" style='display:none;position:absolute;top:0;left:-40px;
+ width:20px;height:20px'>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_voice" title="Suspendre/Lire la narration" style='position:
+ relative;left:-290px'></div>
+ </div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_prevBorder" class=button style='left:-30px'>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_prev" title="Diapositive précédente" style='position:relative;
+ left:0px'></div>
+ </div>
+ <span id="nav_text" style='position:relative;top:3px;width:100px;font-family:
+ Arial;color:buttontext;font-size:9pt'></span>
+ <div id="nb_nextBorder" class=button>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_next" title="Diapositive suivante" style='position:relative;
+ left:-90px'></div>
+ </div>
+ </td>
+</table>
+</div>
+
+<div id=OtlNavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="_KPH()" style='display:none;visibility:hidden'>
+
+<table style='position:relative;width:70px' align=left cellpadding=0 cellspacing=0>
+ <td nowrap><div title="Afficher/Masquer
+le plan" id="nb_otl"
+ style='position:absolute;top:0%;left:0%;width:100%;height:100%;cursor:default'>
+ <div id="nb_otlElem" align=center style='position:relative;padding:3px;font-family:Arial;
+ color:buttontext;font-size:9pt'>Plan</div></div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td>
+ <div style='position:absolute;left:-18px;width:24px;height:20px;border-style:
+ solid;border-width:1px;border-color:threedface' id="nb_otlTxtBorder">
+ <div style='position:absolute;clip:rect(0px, 22px, 18px, 0px)'><img
+ src=buttons.gif id="nb_otlTxt" title="Développer/Réduire le plan"
+ style='position:relative;left:-157px'></div>
+ </div>
+ </td>
+</table>
+
+</div>
+
+<div id=OtlObj style='display:none;visibility:hidden;'>
+
+
+<table width="100%" style='font-family:Arial;font-size:9pt'>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>1</font></div>
+  </td>
+  <td width="100%">
+  <div id=PPTP1 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0499.htm');" id=PPTL1>LES IHM (INTERFACES
+  HOMME-MACHINE) <br>
+    Plan</a></font></div>
+  <div id=PPTC1 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>INTRODUCTION</li>
+   <li>CONSTRUCTION DU MENU GENERAL D’UNE APPLICATION</li>
+   <li>DESCRIPTION DETAILLE D&nbsp;’UNE PROCEDURE FONCTIONNELLE</li>
+   <li>CONSTRUCTION DES FENETRES DE L&nbsp;’INTERFACE</li>
+   <li>GRAPHE D&nbsp;’ENCHAINEMENT DES FENETRES</li>
+   <li>PRISE EN COMPTE DES CONTROLES</li>
+   <li>QUELQUES CONSEILS D&nbsp;’ERGONOMIE</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>2</font></div>
+  </td>
+  <td>
+  <div id=PPTP2 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0500.htm');" id=PPTL2>INTRODUCTION</a></font></div>
+  <div id=PPTC2 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>A quoi sert une interface?</li>
+   <ul>
+    <li>A permettre l&nbsp;’utilisation des fonctionnalités à des utilisateurs
+        qui n&nbsp;’ont pas forcément les connaissances informatiques du
+        concepteur du logiciel;</li>
+    <li>A faciliter l’utilisation des fonctionnalités du logiciel.</li>
+   </ul>
+   <li>Que contient une interface graphique?</li>
+   <ul>
+    <li>Un ensemble d&nbsp;’objets graphiques (menu, boutons, fenêtres, etc.)
+        permettant d&nbsp;’accéder aux fonctionnalités de l&nbsp;’application.</li>
+   </ul>
+   <li>Comment réaliser l’interface de la future application?</li>
+   <ul>
+    <li>A partir du MOT et de la liste de ses procédures fonctionnelles (PF)
+        =&gt; Menu général</li>
+    <li>PF interactive<span style='mso-spacerun:yes'>  </span>=&gt; Ecran de
+        saisie (Formulaire)</li>
+    <li>PF automatique =&gt; Élément du menu (Editions, etc.)</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>3</font></div>
+  </td>
+  <td>
+  <div id=PPTP3 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0501.htm');" id=PPTL3>CONSTRUCTION DE
+  L&nbsp;’INTERFACE</a></font></div>
+  <div id=PPTC3 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LE MOT est composé d&nbsp;’un ensemble de procédures fonctionnelles
+       pouvant être</li>
+   <ul>
+    <li>manuelles,</li>
+    <li>interactives,</li>
+    <li>automatiques.</li>
+   </ul>
+   <li>Seules les procédures interactives et automatiques sont prise en compte
+       pour la construction de l&nbsp;’interface.</li>
+   <li>L&nbsp;’interface comprend</li>
+   <ul>
+    <li>Un menu général,</li>
+    <li>chaque option du menu général déclenche<span style='mso-spacerun:yes'> 
+        </span>soit</li>
+    <ul>
+     <li>l&nbsp;’affichage d&nbsp;’une fenêtre de saisie (cas des PF
+         interactives); soit</li>
+     <li>L&nbsp;’exécution d&nbsp;’une ou plusieurs actions (macro, génération
+         d&nbsp;’un état, etc.; cas des PF automatiques)</li>
+    </ul>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>4</font></div>
+  </td>
+  <td>
+  <div id=PPTP4 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0502.htm');" id=PPTL4>EXEMPLE 1 : La Société
+  APL</a></font></div>
+  <div id=PPTC4 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>La Société APL (Association des Passionnés de la Lecture) regroupe des
+       adhérents qui s&nbsp;’engagent à commander au moins un livre par
+       trimestre.</li>
+   <li>APL édite et envoie à ses adhérents un catalogue chaque trimestre avec
+       un bon de commande à remplir.</li>
+   <li>APL traite les commandes et les règlements reçus et génère une facture
+       pour chaque commande.</li>
+   <li>Si la commande est incorrecte, une lettre de refus de la commande est
+       envoyée à l&nbsp;’adhérent.</li>
+   <li>A la fin du trimestre, tous les adhérents qui n&nbsp;’ont pas passé de
+       commande se voient facturé le livre «&nbsp;sélection&nbsp;» du
+       trimestre.</li>
+   <li>Tous les adhérents en retard de règlement sont relancés, puis résiliés
+       s&nbsp;’ils ne régularisent pas leur situation dans le trimestre qui
+       suit.</li>
+   <br>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>5</font></div>
+  </td>
+  <td>
+  <div id=PPTP5 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0503.htm');" id=PPTL5>EXEMPLE APL: 1) LISTER
+  LES PF DU MOT</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>6</font></div>
+  </td>
+  <td>
+  <div id=PPTP6 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0504.htm');" id=PPTL6>EXEMPLE APL: 2)
+  SELECTIONNER LES PF INTERACTIVES ET AUTOMATIQUES</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>7</font></div>
+  </td>
+  <td>
+  <div id=PPTP7 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0505.htm');" id=PPTL7>EXEMPLE APL: 2)
+  DESCRIPTION DETAILLE D&nbsp;’UNE PF AUTOMATIQUE</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>8</font></div>
+  </td>
+  <td>
+  <div id=PPTP8 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0506.htm');" id=PPTL8>EXEMPLE APL: 2)
+  DESCRIPTION DETAILLE D&nbsp;’UNE PF INTERACTIVE</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>9</font></div>
+  </td>
+  <td>
+  <div id=PPTP9 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0507.htm');" id=PPTL9>EXEMPLE APL: 3)
+  CONSTRUIRE LE MENU GENERAL</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>10</font></div>
+  </td>
+  <td>
+  <div id=PPTP10 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0508.htm');" id=PPTL10>EXEMPLE APL: 3bis)
+  AFFINER LE 					MENU GENERAL</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>11</font></div>
+  </td>
+  <td>
+  <div id=PPTP11 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0509.htm');" id=PPTL11>EXEMPLE APL : 3bis)
+  AFFINER LE 					MENU GENERAL</a></font></div>
+  <div id=PPTC11 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>On peut regrouper les fonctionnalités par thème pour améliorer
+       l&nbsp;’ergonomie</li>
+   <br>
+   <br>
+   <li>On peut également prendre en compte l&nbsp;’enchaînement des procédures
+       fonctionnelles présentées dans le MOT pour alléger le menu général; par
+       exemple ici en supprimant le bouton «&nbsp;impression facture&nbsp;» et
+       en le plaçant dans la fenêtre de «&nbsp;facturation&nbsp;»; idem pour
+       l&nbsp;’«&nbsp;Avis de confirmation&nbsp;» et la «&nbsp;commande
+       incorrecte&nbsp;».</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>12</font></div>
+  </td>
+  <td>
+  <div id=PPTP12 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0510.htm');" id=PPTL12>EXEMPLE APL : 4) A
+  CHAQUE PF INTERACTIVE CORRESPOND UN FORMULAIRE</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>13</font></div>
+  </td>
+  <td>
+  <div id=PPTP13 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0511.htm');" id=PPTL13>EXEMPLE APL : 4) A
+  CHAQUE PF INTERACTIVE CORRESPOND UN FORMULAIRE</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>14</font></div>
+  </td>
+  <td>
+  <div id=PPTP14 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0512.htm');" id=PPTL14>EXEMPLE APL : 4) A
+  CHAQUE PF INTERACTIVE CORRESPOND UN FORMULAIRE</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>15</font></div>
+  </td>
+  <td>
+  <div id=PPTP15 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0513.htm');" id=PPTL15>EXEMPLE APL : 4) A
+  CHAQUE PF INTERACTIVE CORRESPOND UN FORMULAIRE</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>16</font></div>
+  </td>
+  <td>
+  <div id=PPTP16 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0514.htm');" id=PPTL16>EXEMPLE APL : 4) A
+  CHAQUE PF INTERACTIVE CORRESPOND UN FORMULAIRE</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>17</font></div>
+  </td>
+  <td>
+  <div id=PPTP17 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0515.htm');" id=PPTL17>EXEMPLE APL : 5) A
+  CHAQUE PF AUTOMATIQUE CORRESPONDENT DES ACTIONS</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>18</font></div>
+  </td>
+  <td>
+  <div id=PPTP18 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0516.htm');" id=PPTL18>EXEMPLE APL : 6)
+  GENERER UN DIAGRAMME <br>
+    D&nbsp;’ ETATS POUR L’ENCHAINEMENT DES FENETRES</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>19</font></div>
+  </td>
+  <td>
+  <div id=PPTP19 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0517.htm');" id=PPTL19>QUELQUES PRINCIPES
+  D&nbsp;’ERGONOMIE</a></font></div>
+  <div id=PPTC19 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LA COHERENCE: Une même concept doit toujours être utilisé de façon
+       similaire dans un contexte d&nbsp;’utilisation identique.</li>
+   <li>LA CONCISION: Elle doit permettre de limiter le nombre
+       d&nbsp;’interventions de l&nbsp;’utilisateur afin d&nbsp;’éviter les
+       erreurs (par exemple typographiques).</li>
+   <li>LE RETOUR D&nbsp;’INFORMATIONS: Toute action de l&nbsp;’utilisateur doit
+       amener un retour d&nbsp;’information rapide et pertinent afin de lui
+       permettre d&nbsp;’analyser rapidement le nouvel état de
+       l&nbsp;’application.</li>
+   <li>LA STRUCTURATION DES ACTIVITES: L&nbsp;’application doit être décomposée
+       suivant une hiérarchie de niveaux de complexité croissante afin de
+       proposer à l&nbsp;’utilisateur des fonctions simples.</li>
+   <li>LA FLEXIBILITE: Toute application doit pouvoir être facilement
+       personnalisée par les utilisateurs de façon à l&nbsp;’adapter à leurs
+       propres habitudes et perception des choses.</li>
+   <li><span style='mso-spacerun:yes'> </span>LA GESTION DES ERREURS:
+       L&nbsp;’utilisateur doit être orienté vers une méthode lui permettant de
+       résoudre son problème au lieu d&nbsp;’afficher un message élémentaire.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>20</font></div>
+  </td>
+  <td>
+  <div id=PPTP20 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0519.htm');" id=PPTL20>COMMENT ASSURER LA
+  COHERENCE?</a></font></div>
+  <div id=PPTC20 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>cohérence avec le matériel</li>
+   <ul>
+    <ul>
+     <li>Adaptation à l&nbsp;’écran (définitions et palettes de couleur),</li>
+     <li>au clavier (touches de fonctions, touches spéciales),</li>
+     <li>à la souris (nombre de boutons utilisables),</li>
+     <li>à la carte son (désactivation des messages sonores si aucune carte
+         n&nbsp;’est détectée).</li>
+    </ul>
+   </ul>
+   <li>cohérence avec le logiciel</li>
+   <ul>
+    <ul>
+     <li>les modules nécessaires (runtime, dll) au bon fonctionnement de
+         l&nbsp;’application doivent être présents sur les ordinateurs
+         d&nbsp;’accueil.</li>
+    </ul>
+   </ul>
+   <li>cohérence intra-applications (interne)</li>
+   <ul>
+    <ul>
+     <li>toutes les fenêtres et boites de dialogue doivent respecter des règles
+         communes de présentation et d&nbsp;’organisation. Les menus et
+         raccourcis claviers doivent avoir la même signification tout au long
+         de l&nbsp;’application.</li>
+    </ul>
+   </ul>
+   <li>cohérence inter-applications (externe)</li>
+   <ul>
+    <ul>
+     <li>respect des règles communes à toutes les applications concernant les
+         présentations , les méthodes d&nbsp;’interactions avec des objets
+         identiques et les réponses fournies aux mêmes actions de
+         l&nbsp;’utilisateur.</li>
+     <br>
+     <br>
+     <br>
+    </ul>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>21</font></div>
+  </td>
+  <td>
+  <div id=PPTP21 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0520.htm');" id=PPTL21>COMMENT RENDRE
+  L&nbsp;’INTERFACE TRANSPARENTE? (intuitive, visuelle, concise, explicative et
+  flexible)</a></font></div>
+  <div id=PPTC21 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <ul>
+    <li>Intuitive</li>
+    <ul>
+     <li>Utilisation instinctive<span style='mso-spacerun:yes'>  </span>avec un
+         temps d&nbsp;’apprentissage réduit,</li>
+     <li>Doit refléter le travail habituel de l&nbsp;’utilisateur sans
+         l&nbsp;’ordinateur,</li>
+     <li>Utilisation judicieuse de la souris, des icônes, des légendes et
+         commentaires.</li>
+    </ul>
+    <li>Visuelle</li>
+    <ul>
+     <li>Affichage de menus d&nbsp;’actions et de listes de données au lieu de
+         champs de saisie.</li>
+     <li>Pré-remplir le champs de saisie avec une valeur qui servira
+         d&nbsp;’exemple de référence.</li>
+    </ul>
+    <li>Concise</li>
+    <ul>
+     <li>Utiliser des abréviations pour limiter la saisie,</li>
+     <li>Utiliser des raccourcis clavier et icônes pour accélérer
+         l&nbsp;’exécution des commandes,</li>
+     <li>Utiliser des macro-commandes pour personnaliser l&nbsp;’interface et
+         définir plusieurs niveaux d&nbsp;’abstraction,</li>
+     <li>Utiliser les copier-coller et les valeurs par défaut pour réutiliser
+         les informations déjà saisies.</li>
+    </ul>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>22</font></div>
+  </td>
+  <td>
+  <div id=PPTP22 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0522.htm');" id=PPTL22>&quot;Explicative&quot;</a></font></div>
+  <div id=PPTC22 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <ul>
+    <li>Explicative</li>
+    <ul>
+     <li>Proposer une aide (Aide ou «&nbsp;?&nbsp;») accessible depuis la barre
+         d&nbsp;’actions</li>
+     <li>Proposer une aide contextuelle accessible à partir de boutons de boite
+         de dialogue ou de touches de fonctions (F1, …).</li>
+     <li>Orienter l&nbsp;’utilisateur vers une solution en cas d&nbsp;’erreur
+         détectée.</li>
+    </ul>
+    <li>Flexible</li>
+    <ul>
+     <li>Doit s&nbsp;’adapter à la configuration matérielle et logicielle
+         automatiquement.</li>
+     <li>Doit pouvoir être personnalisée par l&nbsp;’utilisateur (création de
+         raccourcis-clavier, ajout d&nbsp;’icônes dans les barres
+         d&nbsp;’outils, modification de valeurs par défaut, réorganisation de
+         menus)</li>
+     <li>Plus l&nbsp;’application s&nbsp;’adresse à un grand nombre
+         d&nbsp;’utilisateurs, plus il faut lui permettre d&nbsp;’être
+         personnalisable.</li>
+    </ul>
+   </ul>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>23</font></div>
+  </td>
+  <td>
+  <div id=PPTP23 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0523.htm');" id=PPTL23>EN QUOI CONSISTE LA
+  CONCEPTION D&nbsp;’INTERFACE GRAPHIQUE?</a></font></div>
+  <div id=PPTC23 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Définition des différentes fenêtres (primaires, secondaires, boîtes de
+       dialogue, boîtes de messages),</li>
+   <li>Organisation des fenêtres primaires et secondaires</li>
+   <ul>
+    <li>3 règles</li>
+   </ul>
+   <li>Organisation des boites de dialogue et des contrôles qu&nbsp;’elles
+       contiennent</li>
+   <ul>
+    <li>10 règles</li>
+   </ul>
+   <li>logique d&nbsp;’enchaînement des fenêtres et des évènements</li>
+   <ul>
+    <li>Diagramme d&nbsp;’états</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>24</font></div>
+  </td>
+  <td>
+  <div id=PPTP24 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0524.htm');" id=PPTL24>CONCEPTION
+  D&nbsp;’INTERFACE GRAPHIQUE: <br>
+    (1) Définition des différentes fenêtres</a></font></div>
+  <div id=PPTC24 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>En liaison avec le MOT</li>
+   <ul>
+    <li>PF interactives</li>
+   </ul>
+   <li>En respectant les principes d&nbsp;’ergonomie</li>
+   <ul>
+    <li>énoncés précédemment</li>
+   </ul>
+   <li>Fonctionnement des fenêtres</li>
+   <ul>
+    <li>Diagramme d&nbsp;’états pour gérer les interactions ayant lieu à
+        l&nbsp;’intérieur d&nbsp;’une fenêtre (réalisation des contrôles,
+        affichage des messages d&nbsp;’erreur).</li>
+   </ul>
+   <li>Diagramme d&nbsp;’états pour représenter les enchaînements entre les
+       fenêtres</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>25</font></div>
+  </td>
+  <td>
+  <div id=PPTP25 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0526.htm');" id=PPTL25>CONCEPTION
+  D&nbsp;’INTERFACE GRAPHIQUE:<br>
+    (2) Organisation des fenêtres primaires et secondaires</a></font></div>
+  <div id=PPTC25 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Règle 1: Taille de la barre d&nbsp;’actions (elle ne doit occuper
+       qu&nbsp;’une seule ligne dans la fenêtre)</li>
+   <li>Règle 2: Taille des menus (la barre des menus doit contenir 12 options
+       au maximum et la barre d&nbsp;’actions pas plus de trois niveaux)</li>
+   <li>Règle 3: Existence de la région client (si elle n&nbsp;’est pas
+       utilisée, elle doit être supprimée)</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>26</font></div>
+  </td>
+  <td>
+  <div id=PPTP26 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0527.htm');" id=PPTL26>&quot;Règle 4 : Nombre
+  de...&quot;</a></font></div>
+  <div id=PPTC26 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <ul>
+    <li>Règle 4 : Nombre de contrôles (&lt;30)</li>
+    <li>Règle 5: Taille et position des boîtes de dialogue (minimum de surface
+        et proche de l&nbsp;’objet qui l&nbsp;’a appelé sans le recouvrir)</li>
+    <li>Règle 6: Position et regroupement des contrôles (par famille avec cadre
+        de groupage, alignement des cadres et titres pour les contrôles sans
+        légende)</li>
+    <li>Règle 7: Mise en Majuscule (la 1ere lettre de chaque chaîne de
+        caractères sauf pour les sigles et abréviations)</li>
+    <li>Règle 8:<span style='mso-spacerun:yes'>  </span>Valeurs initiales
+        (donner une valeur plausible chaque fois que c&nbsp;’est possible)</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>27</font></div>
+  </td>
+  <td>
+  <div id=PPTP27 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0529.htm');" id=PPTL27>&quot;Règle 9:&quot;</a></font></div>
+  <div id=PPTC27 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <ul>
+    <li>Règle 9: Types de Listbox (listbox ou combo-box simples plutôt que
+        déroulantes , visualisation de 3 éléments au moins sans scrolling)</li>
+    <li>Règle 10: Choix et disposition des boutons poussoirs (au même endroit
+        dans toutes les boites de dialogue et dans le même ordre)</li>
+    <li>Règle 11: Taille et structuration des champs de saisie (adaptée au type
+        et à la longueur des données à saisir)</li>
+    <li>Règle 12: Couleurs et polices (homogénéité dans toute
+        l&nbsp;’application et avec les autres applications réalisées; par
+        exemple, utiliser les couleurs pour distinguer les champs à saisir des
+        champs affichés par l&nbsp;’application)</li>
+    <li>Règle 13: Aide en ligne (prévoir les fonctionnalités générales de
+        l&nbsp;’application et le fonctionnement de chaque boite de dialogue).</li>
+    <br>
+    <br>
+   </ul>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>28</font></div>
+  </td>
+  <td>
+  <div id=PPTP28 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0530.htm');" id=PPTL28>Conception d&nbsp;’une
+  interface graphique: <br>
+    (4.1) logique d&nbsp;’enchaînement des fenêtres</a></font></div>
+  <div id=PPTC28 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Pour représenter les enchaînements, il faut prendre en compte</li>
+   <ul>
+    <li>Les évènements (clic de souris, passage au dessus d&nbsp;’un objet,
+        etc.</li>
+    <li>L&nbsp;’événement ouverture de la fenêtre: du code executant des
+        instructions peut y être associé</li>
+    <li>Le découpage en modules (dans le cas d&nbsp;’applications volumineuses)</li>
+    <li>Les paramètres transmis (lors de l&nbsp;’ouverture d&nbsp;’une fenêtre)</li>
+    <br>
+    <br>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>29</font></div>
+  </td>
+  <td>
+  <div id=PPTP29 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0531.htm');" id=PPTL29>CONCEPTION
+  D&nbsp;’INTERFACE GRAPHIQUE: <br>
+    (4.2) modélisation de l&nbsp;’enchaînement des fenêtres</a></font></div>
+  <div id=PPTC29 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Utilisation de scénarios pour décrire tous les cas d&nbsp;’utilisation
+       de l&nbsp;’interface</li>
+   <ul>
+    <li>scénario normal</li>
+    <li>scénario d&nbsp;’erreur</li>
+    <li>scénario d&nbsp;’exception</li>
+   </ul>
+   <li>Utilisation d&nbsp;’un diagramme d&nbsp;’états pour décrire
+       l&nbsp;’enchaînement des fenêtres, des boîtes de dialogue et des boîtes
+       de messages</li>
+   <ul>
+    <li>Les états représentent l&nbsp;’affichage d&nbsp;’une fenêtre active et
+        le travail de l&nbsp;’utilisateur sur cette fenêtre. L&nbsp;’état se
+        termine par l&nbsp;’appui sur une touche ou sur l&nbsp;’activation
+        d&nbsp;’un bouton «&nbsp;fin de fenêtre&nbsp;».</li>
+    <li>La transition prend en compte les données de la fenêtre correspondant à
+        l&nbsp;’ETAT déclenchant la transition, le traitement en fonction des
+        activations fait apparaître une autre fenêtre.</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>30</font></div>
+  </td>
+  <td>
+  <div id=PPTP30 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0547.htm');" id=PPTL30>RAPPEL SUR LE DIAGRAMME
+  D&nbsp;’ETATS</a></font></div>
+  <div id=PPTC30 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>LE DIAGRAMME D&nbsp;’ETATS</li>
+   <li>LES ETATS</li>
+   <li>LES<span style='mso-spacerun:yes'>  </span>TRANSITIONS</li>
+   <li>LES EVENEMENTS</li>
+   <li>LES ACTIONS</li>
+   <li>LES ACTIVITES</li>
+   <li>EXEMPLES: APL et DAB</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>31</font></div>
+  </td>
+  <td>
+  <div id=PPTP31 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0533.htm');" id=PPTL31>DIAGRAMME D&nbsp;’ETATS</a></font></div>
+  <div id=PPTC31 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Le DIAGRAMME D&nbsp;’ETATS représente les traitements permettant de
+       gérer le domaine étudié, les TRAITEMENTS (opérations) par rapport à des ETATS
+       des classes (ici l&nbsp;’interface).</li>
+   <li>Il met en évidence l’enchaînement des états et fait apparaître l’ordonnancement
+       de ces différents travaux.</li>
+   <li>Il permet de représenter tous les états possibles ainsi que les EVENEMENTS
+       provoquant les changements d’état.</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>32</font></div>
+  </td>
+  <td>
+  <div id=PPTP32 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0535.htm');" id=PPTL32>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Les états</a></font></div>
+  <div id=PPTC32 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <br>
+   <li>Un ETAT est une situation durable dans laquelle peut se trouver
+       l&nbsp;’interface (ou l&nbsp;’une de ses fenêtres) et à laquelle on
+       associe des règles et des activités particulières.</li>
+   <li>Les objets de certaines classes n’ont qu’un seul état pendant toute la
+       durée de leur existence.</li>
+   <li>L’état est représenté par un rectangle aux angles arrondis.</li>
+   <br>
+   <br>
+   <br>
+   <li>On passe d’un état à un autre suite à un événement.</li>
+   <li>Tout évènement ne provoque pas un changement d’état.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>33</font></div>
+  </td>
+  <td>
+  <div id=PPTP33 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0536.htm');" id=PPTL33>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Les Transitions</a></font></div>
+  <div id=PPTC33 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Une TRANSITION est une relation entre deux états signifiant qu’un
+       passage de l’un à l’autre est possible.</li>
+   <li>Elle est orientée.</li>
+   <li>Un EVENEMENT y est attaché et indique qu’un objet passe d’un état à un
+       autre sous certaines conditions.</li>
+   <li>La transition est représentée par une flèche entre deux états
+       accompagnée du nom d’événement.</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>34</font></div>
+  </td>
+  <td>
+  <div id=PPTP34 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0539.htm');" id=PPTL34>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Les actions</a></font></div>
+  <div id=PPTC34 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Une ACTION est une opération élémentaire et instantanée.</li>
+   <li>Elle est rattachée à la réalisation d’un événement, ou à l’entrée dans
+       un état, ou à la sortie d’un état.</li>
+   <li>Exemple: On associe à l’événement «&nbsp;cliquer sur annuler&nbsp;»
+       l&nbsp;’action «&nbsp;Effacer fenêtre facturation&nbsp;».</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>35</font></div>
+  </td>
+  <td>
+  <div id=PPTP35 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0542.htm');" id=PPTL35>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Les activités</a></font></div>
+  <div id=PPTC35 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Une ACTIVITE est une action qui dure.</li>
+   <li>Chaque activité est associée obligatoirement à un état d’objet et
+       vice-versa.</li>
+   <li>Exemple: l’activité «&nbsp;imprimer reçu&nbsp;» est associée à l’état
+       «&nbsp;terminé&nbsp;».</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>36</font></div>
+  </td>
+  <td>
+  <div id=PPTP36 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0537.htm');" id=PPTL36>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Exemple 1: APL- La facturation</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>37</font></div>
+  </td>
+  <td>
+  <div id=PPTP37 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0551.htm');" id=PPTL37>SCENARIO<br>
+    Exemple 2: le DAB - cas normal</a></font></div>
+  <div id=PPTC37 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Le DAB demande à l&nbsp;’utilisateur d&nbsp;’insérer la carte.
+       L&nbsp;’utilisateur insère la carte.</li>
+   <li>Le DAB accepte la carte et lit le N° de série.</li>
+   <li>Le DAB demande le code secret. L&nbsp;’utilisateur entre
+       «&nbsp;1.2.3.4&nbsp;».</li>
+   <li>Le DAB vérifie le N° de série et le code secret par
+       l&nbsp;’intermédiaire du consortium. Le consortium vérifie à
+       l&nbsp;’aide de la banque «&nbsp;39&nbsp;» et signifie son acceptation
+       au DAB.</li>
+   <li>Le DAB demande à l&nbsp;’utilisateur de spécifier le montant de son
+       retrait. L&nbsp;’utilisateur indique 500.</li>
+   <li>Le DAB vérifie que le montant ne dépasse pas la somme autorisée et
+       transmet le traitement de la transaction au consortium. Le consortium
+       fait suivre vers la banque qui retourne éventuellement un acquittement
+       avec le nouveau solde.</li>
+   <li>Le DAB délivre l&nbsp;’argent et demande à l&nbsp;’utilisateur de le
+       prendre. L&nbsp;’utilisateur le prend.</li>
+   <li>Le DAB délivre le reçu, éjecte la carte et demande à l&nbsp;’utilisateur
+       de les récupérer. L&nbsp;’utilisateur les récupère.</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>38</font></div>
+  </td>
+  <td>
+  <div id=PPTP38 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0548.htm');" id=PPTL38>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Exemple 2: le DAB - cas normal</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>39</font></div>
+  </td>
+  <td>
+  <div id=PPTP39 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0552.htm');" id=PPTL39>MAQUETTE DE
+  L&nbsp;’INTERFACE<br>
+    Exemple 2: le DAB - cas normal</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>40</font></div>
+  </td>
+  <td>
+  <div id=PPTP40 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0528.htm');" id=PPTL40>CONCEPTION
+  D&nbsp;’INTERFACE GRAPHIQUE: <br>
+    (4.2) Modélisation de l&nbsp;’enchaînement des fenêtres</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>41</font></div>
+  </td>
+  <td>
+  <div id=PPTP41 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0550.htm');" id=PPTL41>EXERCICES
+  D&nbsp;’APPLICATION <br>
+    Création d&nbsp;’interface</a></font></div>
+  <div id=PPTC41 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>1 - Le DAB</li>
+   <ul>
+    <li>Définir sous forme de scénario un cas d&nbsp;’erreur qui pourrait se
+        présenter dans le déroulement d&nbsp;’un «&nbsp;Retrait
+        d&nbsp;’argent&nbsp;».</li>
+    <li>Compléter le diagramme d&nbsp;’états pour prendre en compte ce nouveau
+        scénario.</li>
+    <li>Comment modifier le diagramme d&nbsp;’état représentant le
+        fonctionnement du DAB pour prendre en compte le fait que l&nbsp;’on
+        puisse réaliser d&nbsp;’autres opérations que des retraits (par exemple
+        dépôt, virement, relevé)</li>
+   </ul>
+   <li>2 - La bibliothèque</li>
+   <ul>
+    <li>A partir du MOT du cas bibliothèque, Définir sous forme de scénarios
+        (cas normal, cas d&nbsp;’exception, cas d&nbsp;’erreur), puis sous la
+        forme d&nbsp;’un diagramme d&nbsp;’états l&nbsp;’interface du logiciel
+        de gestion de la bibliothèque</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>42</font></div>
+  </td>
+  <td>
+  <div id=PPTP42 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0554.htm');" id=PPTL42>SCENARIO<br>
+    Exemple 2: le DAB - Un cas d&nbsp;’erreur</a></font></div>
+  <div id=PPTC42 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Le DAB demande à l&nbsp;’utilisateur d&nbsp;’insérer la carte.
+       L&nbsp;’utilisateur insère la carte.</li>
+   <li>Le DAB accepte la carte et lit le N° de série.</li>
+   <li>Le DAB demande le code secret. L&nbsp;’utilisateur entre
+       «&nbsp;9.9.9.9&nbsp;».</li>
+   <li>Le DAB vérifie le N° de série et le code secret par
+       l&nbsp;’intermédiaire du consortium. Le consortium rejette la carte
+       après consultation de la banque appropriée.</li>
+   <li>Le DAB indique qu&nbsp;’un mauvais code a été entré et demande à
+       l&nbsp;’utilisateur de l&nbsp;’entrer à nouveau. L&nbsp;’utilisateur
+       entre «&nbsp;1.2.3.4&nbsp;» que le DAB vérifie avec succès.</li>
+   <li>Le DAB demande à l&nbsp;’utilisateur de spécifier le montant de son
+       retrait. L&nbsp;’utilisateur change d&nbsp;’avis et appuie sur
+       «&nbsp;Annuler&nbsp;».</li>
+   <li>Le DAB éjecte la carte et demande à l&nbsp;’utilisateur de la récupérer.
+       L&nbsp;’utilisateur la retire.</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>43</font></div>
+  </td>
+  <td>
+  <div id=PPTP43 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0553.htm');" id=PPTL43>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Exemple 2: le DAB - incluant le cas d&nbsp;’erreur</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>44</font></div>
+  </td>
+  <td>
+  <div id=PPTP44 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0555.htm');" id=PPTL44>DIAGRAMME
+  D&nbsp;’ETATS<br>
+    Exemple 2: le DAB - complété</a></font></div>
+  </td>
+ </tr>
+</table>
+
+
+
+</div>
+
+<div style='display:none'><a href=master04.htm></a><a href=master04.xml></a><a
+href=preview.wmf></a><a href="master04_image001.png"></a><a href=master05.htm></a><a
+href=master05.xml></a><a href=master02.htm></a><a href=pres.xml></a><a
+href=slide0499.htm></a><a href="master04_image002.gif"></a><a
+href="master04_image003.gif"></a><a href="slide0499_image004.wmz"></a><a
+href=oledata.mso></a><a href="slide0499_image005.gif"></a><a
+href=slide0500.htm></a><a href="master04_image006.gif"></a><a
+href=slide0501.htm></a><a href="master04_image007.gif"></a><a
+href=slide0502.htm></a><a href="master04_image008.gif"></a><a
+href=slide0503.htm></a><a href="master04_image009.gif"></a><a
+href="slide0503_image010.emz"></a><a href="slide0503_image011.gif"></a><a
+href=slide0504.htm></a><a href="master04_image012.gif"></a><a
+href="slide0504_image013.emz"></a><a href="slide0504_image014.gif"></a><a
+href=slide0505.htm></a><a href="master04_image015.gif"></a><a
+href="slide0505_image016.gif"></a><a href="slide0505_image017.gif"></a><a
+href="slide0505_image018.gif"></a><a href=slide0506.htm></a><a
+href="master04_image019.gif"></a><a href="slide0506_image020.gif"></a><a
+href="slide0506_image021.gif"></a><a href="slide0506_image022.gif"></a><a
+href=slide0507.htm></a><a href="master04_image023.gif"></a><a
+href="slide0507_image024.gif"></a><a href="slide0507_image025.emz"></a><a
+href="slide0507_image026.gif"></a><a href="slide0507_image027.gif"></a><a
+href=slide0508.htm></a><a href="master04_image028.gif"></a><a
+href="slide0508_image029.gif"></a><a href="slide0508_image030.gif"></a><a
+href="slide0508_image031.gif"></a><a href="slide0508_image032.gif"></a><a
+href="slide0508_image033.gif"></a><a href="slide0508_image034.gif"></a><a
+href="slide0508_image035.gif"></a><a href="slide0508_image036.gif"></a><a
+href="slide0508_image037.gif"></a><a href="slide0508_image038.gif"></a><a
+href="slide0508_image039.gif"></a><a href=slide0509.htm></a><a
+href="master04_image040.gif"></a><a href="slide0509_image041.gif"></a><a
+href="slide0509_image042.gif"></a><a href="slide0509_image043.gif"></a><a
+href="slide0509_image044.gif"></a><a href="slide0509_image045.gif"></a><a
+href="slide0509_image046.gif"></a><a href="slide0509_image047.gif"></a><a
+href="slide0509_image048.gif"></a><a href="slide0509_image049.gif"></a><a
+href="slide0509_image050.gif"></a><a href="slide0509_image051.gif"></a><a
+href="slide0509_image052.gif"></a><a href=slide0510.htm></a><a
+href="master04_image053.gif"></a><a href="slide0510_image054.gif"></a><a
+href="slide0510_image055.gif"></a><a href="slide0510_image056.gif"></a><a
+href="slide0510_image057.gif"></a><a href="slide0510_image058.gif"></a><a
+href="slide0510_image059.gif"></a><a href="slide0510_image060.gif"></a><a
+href="slide0510_image061.gif"></a><a href="slide0510_image062.gif"></a><a
+href="slide0510_image063.gif"></a><a href="slide0510_image064.gif"></a><a
+href="slide0510_image065.gif"></a><a href="slide0510_image066.gif"></a><a
+href="slide0510_image067.gif"></a><a href=slide0511.htm></a><a
+href=slide0511.xml></a><a href="master04_image068.gif"></a><a
+href="slide0511_image069.gif"></a><a href="slide0511_image070.gif"></a><a
+href="slide0511_image071.gif"></a><a href="slide0511_image072.gif"></a><a
+href="slide0511_image073.gif"></a><a href="slide0511_image074.gif"></a><a
+href="slide0511_image075.gif"></a><a href="slide0511_image076.gif"></a><a
+href="slide0511_image077.gif"></a><a href="slide0511_image078.gif"></a><a
+href="slide0511_image079.gif"></a><a href="slide0511_image080.gif"></a><a
+href=slide0512.htm></a><a href="master04_image081.gif"></a><a
+href="slide0512_image082.gif"></a><a href="slide0512_image083.gif"></a><a
+href="slide0512_image084.gif"></a><a href="slide0512_image085.gif"></a><a
+href="slide0512_image086.gif"></a><a href="slide0512_image087.gif"></a><a
+href="slide0512_image088.gif"></a><a href="slide0512_image089.gif"></a><a
+href="slide0512_image090.gif"></a><a href=slide0513.htm></a><a
+href="master04_image091.gif"></a><a href="slide0513_image092.gif"></a><a
+href="slide0513_image093.gif"></a><a href="slide0513_image094.gif"></a><a
+href="slide0513_image095.gif"></a><a href="slide0513_image096.gif"></a><a
+href="slide0513_image097.gif"></a><a href="slide0513_image098.gif"></a><a
+href="slide0513_image099.gif"></a><a href="slide0513_image100.gif"></a><a
+href="slide0513_image101.gif"></a><a href="slide0513_image102.gif"></a><a
+href="slide0513_image103.gif"></a><a href="slide0513_image104.gif"></a><a
+href="slide0513_image105.gif"></a><a href="slide0513_image106.gif"></a><a
+href=slide0514.htm></a><a href="master04_image107.gif"></a><a
+href="slide0514_image108.gif"></a><a href="slide0514_image109.gif"></a><a
+href="slide0514_image110.gif"></a><a href="slide0514_image111.gif"></a><a
+href="slide0514_image112.gif"></a><a href="slide0514_image113.gif"></a><a
+href="slide0514_image114.gif"></a><a href="slide0514_image115.gif"></a><a
+href="slide0514_image116.gif"></a><a href="slide0514_image117.gif"></a><a
+href="slide0514_image118.gif"></a><a href="slide0514_image119.gif"></a><a
+href="slide0514_image120.gif"></a><a href="slide0514_image121.gif"></a><a
+href="slide0514_image122.gif"></a><a href="slide0514_image123.gif"></a><a
+href="slide0514_image124.gif"></a><a href=slide0515.htm></a><a
+href="master04_image125.gif"></a><a href="slide0515_image126.gif"></a><a
+href="slide0515_image127.gif"></a><a href="slide0515_image128.gif"></a><a
+href="slide0515_image129.gif"></a><a href="slide0515_image130.gif"></a><a
+href="slide0515_image131.gif"></a><a href="slide0515_image132.gif"></a><a
+href="slide0515_image133.gif"></a><a href="slide0515_image134.gif"></a><a
+href="slide0515_image135.gif"></a><a href="slide0515_image136.gif"></a><a
+href="slide0515_image137.gif"></a><a href="slide0515_image138.gif"></a><a
+href="slide0515_image139.gif"></a><a href="slide0515_image140.gif"></a><a
+href="slide0515_image141.gif"></a><a href="slide0515_image142.gif"></a><a
+href="slide0515_image143.gif"></a><a href="slide0515_image144.gif"></a><a
+href="slide0515_image145.gif"></a><a href="slide0515_image146.gif"></a><a
+href="slide0515_image147.gif"></a><a href="slide0515_image148.gif"></a><a
+href="slide0515_image149.gif"></a><a href=slide0516.htm></a><a
+href=slide0516.xml></a><a href="master04_image150.gif"></a><a
+href="slide0516_image151.gif"></a><a href="slide0516_image152.gif"></a><a
+href="slide0516_image153.gif"></a><a href="slide0516_image154.gif"></a><a
+href="slide0516_image155.gif"></a><a href="slide0516_image156.gif"></a><a
+href="slide0516_image157.gif"></a><a href="slide0516_image158.gif"></a><a
+href="slide0516_image159.gif"></a><a href="slide0516_image160.gif"></a><a
+href="slide0516_image161.gif"></a><a href="slide0516_image162.gif"></a><a
+href="slide0516_image163.gif"></a><a href=slide0517.htm></a><a
+href="master04_image164.gif"></a><a href=slide0519.htm></a><a
+href="master04_image165.gif"></a><a href=slide0520.htm></a><a
+href="master04_image166.gif"></a><a href=slide0522.htm></a><a
+href="master04_image167.gif"></a><a href=slide0523.htm></a><a
+href="master04_image168.gif"></a><a href=slide0524.htm></a><a
+href="master04_image169.gif"></a><a href=slide0526.htm></a><a
+href="master04_image170.gif"></a><a href=slide0527.htm></a><a
+href="master04_image171.gif"></a><a href=slide0529.htm></a><a
+href="master04_image172.gif"></a><a href=slide0530.htm></a><a
+href="master04_image173.gif"></a><a href=slide0531.htm></a><a
+href="master04_image174.gif"></a><a href=slide0547.htm></a><a
+href="master04_image175.gif"></a><a href="slide0547_image176.wmz"></a><a
+href="slide0547_image177.gif"></a><a href=slide0533.htm></a><a
+href="master04_image178.gif"></a><a href=slide0535.htm></a><a
+href="master04_image179.gif"></a><a href="slide0535_image180.gif"></a><a
+href=slide0536.htm></a><a href="master04_image181.gif"></a><a
+href="slide0536_image182.gif"></a><a href="slide0536_image183.gif"></a><a
+href="slide0536_image184.gif"></a><a href="slide0536_image185.gif"></a><a
+href="slide0536_image186.gif"></a><a href="slide0536_image187.gif"></a><a
+href=slide0539.htm></a><a href="master04_image188.gif"></a><a
+href="slide0539_image189.gif"></a><a href="slide0539_image190.gif"></a><a
+href="slide0539_image191.gif"></a><a href="slide0539_image192.gif"></a><a
+href=slide0542.htm></a><a href="master04_image193.gif"></a><a
+href="slide0542_image194.gif"></a><a href="slide0542_image195.gif"></a><a
+href="slide0542_image196.gif"></a><a href="slide0542_image197.gif"></a><a
+href=slide0537.htm></a><a href="master04_image198.gif"></a><a
+href="slide0537_image199.gif"></a><a href="slide0537_image200.gif"></a><a
+href="slide0537_image201.gif"></a><a href="slide0537_image202.gif"></a><a
+href="slide0537_image203.gif"></a><a href="slide0537_image204.gif"></a><a
+href="slide0537_image205.gif"></a><a href="slide0537_image206.gif"></a><a
+href="slide0537_image207.gif"></a><a href="slide0537_image208.gif"></a><a
+href="slide0537_image209.gif"></a><a href="slide0537_image210.gif"></a><a
+href="slide0537_image211.gif"></a><a href="slide0537_image212.gif"></a><a
+href="slide0537_image213.gif"></a><a href="slide0537_image214.gif"></a><a
+href="slide0537_image215.gif"></a><a href="slide0537_image216.gif"></a><a
+href="slide0537_image217.gif"></a><a href="slide0537_image218.gif"></a><a
+href=slide0551.htm></a><a href="master04_image219.gif"></a><a
+href="slide0551_image220.gif"></a><a href=slide0548.htm></a><a
+href="master04_image221.gif"></a><a href="slide0548_image222.gif"></a><a
+href="slide0548_image223.gif"></a><a href="slide0548_image224.gif"></a><a
+href="slide0548_image225.gif"></a><a href="slide0548_image226.gif"></a><a
+href="slide0548_image227.gif"></a><a href="slide0548_image228.gif"></a><a
+href="slide0548_image229.gif"></a><a href="slide0548_image230.gif"></a><a
+href="slide0548_image231.gif"></a><a href="slide0548_image232.gif"></a><a
+href="slide0548_image233.gif"></a><a href="slide0548_image234.gif"></a><a
+href="slide0548_image235.gif"></a><a href="slide0548_image236.gif"></a><a
+href="slide0548_image237.gif"></a><a href="slide0548_image238.gif"></a><a
+href="slide0548_image239.gif"></a><a href=slide0552.htm></a><a
+href="master04_image240.gif"></a><a href="slide0552_image241.gif"></a><a
+href=slide0528.htm></a><a href="master04_image242.gif"></a><a
+href="slide0528_image243.gif"></a><a href="slide0528_image244.gif"></a><a
+href="slide0528_image245.gif"></a><a href="slide0528_image246.gif"></a><a
+href="slide0528_image247.gif"></a><a href="slide0528_image248.gif"></a><a
+href=slide0550.htm></a><a href="master04_image249.gif"></a><a
+href=slide0554.htm></a><a href="master04_image250.gif"></a><a
+href="slide0554_image251.gif"></a><a href=slide0553.htm></a><a
+href="master04_image252.gif"></a><a href="slide0553_image253.gif"></a><a
+href="slide0553_image254.gif"></a><a href="slide0553_image255.gif"></a><a
+href="slide0553_image256.gif"></a><a href="slide0553_image257.gif"></a><a
+href="slide0553_image258.gif"></a><a href="slide0553_image259.gif"></a><a
+href="slide0553_image260.gif"></a><a href="slide0553_image261.gif"></a><a
+href="slide0553_image262.gif"></a><a href="slide0553_image263.gif"></a><a
+href="slide0553_image264.gif"></a><a href="slide0553_image265.gif"></a><a
+href="slide0553_image266.gif"></a><a href="slide0553_image267.gif"></a><a
+href="slide0553_image268.gif"></a><a href="slide0553_image269.gif"></a><a
+href="slide0553_image270.gif"></a><a href="slide0553_image271.gif"></a><a
+href="slide0553_image272.gif"></a><a href="slide0553_image273.gif"></a><a
+href="slide0553_image274.gif"></a><a href=slide0555.htm></a><a
+href="master04_image275.gif"></a><a href="slide0555_image276.gif"></a><a
+href="slide0555_image277.gif"></a><a href="slide0555_image278.gif"></a><a
+href="slide0555_image279.gif"></a><a href="slide0555_image280.gif"></a><a
+href="slide0555_image281.gif"></a><a href="slide0555_image282.gif"></a><a
+href="slide0555_image283.gif"></a><a href="slide0555_image284.gif"></a><a
+href="slide0555_image285.gif"></a><a href="slide0555_image286.gif"></a><a
+href="slide0555_image287.gif"></a><a href="slide0555_image288.gif"></a><a
+href="slide0555_image289.gif"></a><a href="slide0555_image290.gif"></a><a
+href="slide0555_image291.gif"></a><a href="slide0555_image292.gif"></a><a
+href="slide0555_image293.gif"></a><a href="slide0555_image294.gif"></a><a
+href="slide0555_image295.gif"></a><a href="slide0555_image296.gif"></a><a
+href="slide0555_image297.gif"></a><a href="slide0555_image298.gif"></a><a
+href="slide0555_image299.gif"></a><a href="slide0555_image300.gif"></a><a
+href="slide0555_image301.gif"></a><a href=master01.htm></a><a
+href="master04_stylesheet.css"></a><a href=script.js></a><a href="../crsIHM.htm"></a><a
+href=fullscreen.htm></a><a href="notes_flag.gif"></a><a href=buttons.gif></a><a
+href=frame.htm></a><a href=outline.htm></a></div>
+
+</body>
+
+</html>

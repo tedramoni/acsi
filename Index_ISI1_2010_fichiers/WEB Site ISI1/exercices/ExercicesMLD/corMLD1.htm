@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>Corrigé 1: Le suivi des réclamations</TITLE>
+<META NAME="Template" CONTENT="C:\Program Files\Microsoft Office\Office\html.dot">
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080" BGCOLOR="#99ffcc">
+
+<P ALIGN="CENTER"><CENTER><TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=633>
+<TR><TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<B><U><FONT SIZE=4 COLOR="#ff0000"><P ALIGN="CENTER">1</B></U><I>: Le suivi des r&eacute;clamations</I></FONT></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<P ALIGN="CENTER"><IMG SRC="imgMLD1.gif" WIDTH=319 HEIGHT=180></P>
+<B><U><FONT COLOR="#ff0000"><P ALIGN="JUSTIFY">Corrig&eacute;:</P>
+<P ALIGN="JUSTIFY">I Transformation des entit&eacute;s avec leurs propri&eacute;t&eacute;s et cl&eacute;s</P>
+
+<UL>
+</B></U><LI>CONSOMMATEUR (<U>code consom</U>, nom consom., pr&eacute;nom consom., adresse consom.) </LI>
+<LI>USINE (<U>code usine</U>) </LI>
+<LI>PRODUIT (<U>code produit</U>) </LI>
+<LI>REPONSE (<U>code r&eacute;ponse</U>, date r&eacute;ponse, libell&eacute; r&eacute;ponse) </LI>
+<LI>GROUPE DE PRODUIT (<U>code groupe</U>)</LI></UL>
+
+</FONT><B><U><FONT COLOR="#0000ff"><P ALIGN="JUSTIFY">II Transformation des associations &agrave; cardinalit&eacute;s (0,1) ou (1,1)</P>
+
+<UL>
+</B></U></FONT><FONT COLOR="#ff0000"><LI>RECLAMATION(<U>code r&eacute;clamation</U>, date r&eacute;clamation</FONT><FONT COLOR="#0000ff">, <B><I>code consom#., code produit#, code usine#</B></I>)</LI></UL>
+
+</FONT><B><I><U><FONT SIZE=2 COLOR="#ff0000"><P ALIGN="JUSTIFY">Remarque:</B></U> RECLAMATION r&eacute;sulte &eacute;galement de l'application de la premi&egrave;re r&egrave;gle de passage: la transformation des entit&eacute;s en relations/tables.</P>
+</I></FONT><B><U><FONT COLOR="#800080"><P ALIGN="JUSTIFY">III Transformation des associations ayant uniquement des cardinalit&eacute;s (0,n) ou (1,n)</P>
+
+<UL>
+</B></U><LI>REGROUPEMENT DE GROUPES (<U>code groupe aval#, code groupe amont#</U>) </LI>
+<LI>APPELER (<U>code r&eacute;clamation#, code r&eacute;ponse#</U>) </LI>
+<LI>GROUPER (<U>code groupe# , code produit#</U>)</LI></UL>
+</FONT>
+<P ALIGN="CENTER"><CENTER><TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=615>
+<TR><TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="MLD1.htm">Retour &agrave; l'&eacute;nonc&eacute;</A></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="../sexercerMLD.htm">Retour au sommaire</A></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="../../Index.htm">Retour &agrave; l'accueil</A></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<P ALIGN="JUSTIFY"></P></BODY>
+</HTML>

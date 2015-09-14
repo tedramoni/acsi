@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>S'exercer sur le MCD</TITLE>
+<META NAME="Template" CONTENT="C:\Program Files\Microsoft Office\Office\html.dot">
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080" BGCOLOR="#ccffcc">
+
+<TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=608>
+<TR><TD WIDTH="14%" VALIGN="TOP">
+<P ALIGN="CENTER"><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53></TD>
+<TD WIDTH="73%" VALIGN="MIDDLE">
+<B><FONT SIZE=4 COLOR="#ff0000"><P ALIGN="CENTER"><A NAME="Top"></A>6: Tarification Transports Parisiens et Transiliens</B></FONT></TD>
+<TD WIDTH="13%" VALIGN="TOP">
+<P ALIGN="CENTER"><IMG SRC="Image2.gif" WIDTH=79 HEIGHT=53></TD>
+</TR>
+</TABLE>
+
+<FONT SIZE=1><P ALIGN="CENTER">&nbsp;</P>
+</FONT><P ALIGN="CENTER"><IMG SRC="corMCD6.gif" WIDTH=320 HEIGHT=240></P>
+<U><P ALIGN="JUSTIFY">Remarques</U>: </P>
+
+<UL>
+<P ALIGN="JUSTIFY"><LI>Les cardinalit&eacute;s entre l'entit&eacute; TYPE REDUCTION et l'association <I>Tarif Coupon</I> sont (1:n) car la propri&eacute;t&eacute; "type de r&eacute;duction" peut prendre la valeur AUCUNE.</LI></P>
+<P ALIGN="JUSTIFY"><LI>Si l'on consid&egrave;re que la <B><I>Zone de d&eacute;part</B></I> pour un coupon est strictement inf&eacute;rieure &agrave; <B><I>la Zone de fin</B></I>, cela justifie les cardinalit&eacute;s (0:n) pour les deux r&ocirc;les de l'association <B><I>Tarif Coupon</B></I>. En effet, la valeur de la zone la plus &eacute;loign&eacute;e (par exemple 6) ne peut donc pas servir de <B><I>Zone de d&eacute;part</B></I>. De m&ecirc;me, la zone 1 ne peut pas servir de <B><I>Zone de fin</B></I>. </LI></P>
+<P ALIGN="JUSTIFY"><LI>Par contre, comme les lignes sont bi-directionnelles, chaque station peut jouer le r&ocirc;le de point de d&eacute;part ou de point d'arriv&eacute;e. D'o&ugrave; les cardinalit&eacute;s (1:n) pour les deux r&ocirc;les de l'association <B><I>Tarif Aller.</LI></P></UL>
+
+<OL>
+
+</I><P ALIGN="JUSTIFY"><LI>Quelle modification faut-il faire dans le mod&egrave;le si l'on consid&egrave;re maintenant que le prix d'un ticket (ou aller simple) est uniformis&eacute; pour toutes les stations se trouvant dans une m&ecirc;me zone?</LI></P></OL>
+
+</B><P ALIGN="JUSTIFY">Il faut d&eacute;placer l'association Tarif Aller et la positionner comme association r&eacute;flexive sur l'entit&eacute; ZONE, avec cette fois-ci la cardinalit&eacute; (1:n) pour la zone de d&eacute;part et (0:n) pour la zone d'arriv&eacute;e (un ticket de m&eacute;tro a pour zone de d&eacute;part la zone 1 et pour zone d'arriv&eacute;e la zone 2) La zone 1 n'est donc jamais une zone d'arriv&eacute;e. Par contre, n'importe quelle zone peut &ecirc;tre zone de d&eacute;part, y compris la plus &eacute;loign&eacute;e du centre de Paris.</P>
+<P ALIGN="CENTER"><CENTER><TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=622>
+<TR><TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="MCD6.htm">Retour &agrave; l'&eacute;nonc&eacute;</A></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="../sexercerMCD.htm">Retour au sommaire</A></TD>
+<TD WIDTH="33%" VALIGN="TOP">
+<P ALIGN="CENTER"><A HREF="../../Index.htm">Retour &agrave; l'accueil</A></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<P ALIGN="CENTER"></P></BODY>
+</HTML>
